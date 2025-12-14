@@ -15,13 +15,13 @@ services:
       - --cors-origin=*
       - --debug
       - --uri=file:/etc/flagd/gui.yaml
-      - --uri=file:/etc/flagd/backend.yaml
+      - --uri=file:/etc/flagd/quarkus.yaml
       - --uri=file:/etc/flagd/nodejs.yaml
     networks:
       - fitflag-network
 
-  # Quarkus Backend
-  backend:
+  # Quarkus Backend (Steps API)
+  quarkus-backend:
     build:
       context: ./src/fitflag-quarkus
       dockerfile: Dockerfile
@@ -73,14 +73,6 @@ services:
       - "8080:8080"
     networks:
       - fitflag-network
-
-  # Debug container for network and health endpoint validation
-  # debugger:
-  #   image: curlimages/curl:latest
-  #   container_name: fitflag-debugger
-  #   command: sleep infinity
-  #   networks:
-  #     - fitflag-network
 
 networks:
   fitflag-network:

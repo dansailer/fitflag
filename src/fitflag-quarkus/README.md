@@ -111,7 +111,7 @@ Edit `src/main/resources/application.properties` to configure:
 
 ## Feature Flag Configuration
 
-The feature flag is defined in `/flagd/config/backend.yaml`:
+The feature flag is defined in `/flagd/config/quarkus.yaml`:
 
 ```yaml
 flags:

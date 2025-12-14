@@ -27,7 +27,8 @@ flagd-start:
         --cors-origin "*" \
         --debug \
         --uri file:/etc/flagd/gui.yaml \
-        --uri file:/etc/flagd/backend.yaml
+        --uri file:/etc/flagd/quarkus.yaml \
+        --uri file:/etc/flagd/nodejs.yaml
 
 # Stop flagd container
 flagd-stop:
