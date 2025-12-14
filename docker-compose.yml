@@ -64,6 +64,7 @@ services:
       args:
         # Pass build-time arguments for Vite env vars
         - VITE_QUARKUS_URL=http://localhost:8081
+        - VITE_NODEJS_URL=http://localhost:8082
         - VITE_FLAGD_HOST=localhost
         - VITE_FLAGD_PORT=8013
         - VITE_FLAGD_PATH_PREFIX=
