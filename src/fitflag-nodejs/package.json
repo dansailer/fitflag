@@ -1,0 +1,29 @@
+{
+  "name": "fitflag-nodejs",
+  "version": "1.0.0",
+  "description": "FitFlag Node.js backend for calories tracking with OpenFeature",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "dev": "ts-node src/index.ts",
+    "watch": "nodemon --watch src --exec ts-node src/index.ts"
+  },
+  "keywords": ["fitness", "calories", "openfeature", "flagd"],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@openfeature/server-sdk": "^1.15.0",
+    "@openfeature/flagd-provider": "^0.13.3",
+    "express": "^4.18.2",
+    "cors": "^2.8.5"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.21",
+    "@types/cors": "^2.8.17",
+    "@types/node": "^20.10.5",
+    "typescript": "^5.3.3",
+    "ts-node": "^10.9.2",
+    "nodemon": "^3.0.2"
+  }
+}

@@ -1,0 +1,14 @@
+flags:
+  gamification-enabled:
+    state: ENABLED
+    variants:
+      on: true
+      off: false
+    defaultVariant: off
+    targeting:
+      if:
+        - in:
+            - var: role
+            - ["beta-tester", "admin"]
+        - on
+        - off

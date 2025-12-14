@@ -1,0 +1,21 @@
+flags:
+  step-calculation-algorithm:
+    state: ENABLED
+    variants:
+      simple: "simple"
+      enhanced: "enhanced"
+      ml-powered: "ml-powered"
+    defaultVariant: simple
+    targeting:
+      if:
+        # Premium users (admin/beta-tester) get ML-powered algorithm
+        - in:
+            - var: role
+            - ["admin", "beta-tester"]
+        - ml-powered
+        # Regular users get enhanced algorithm
+        - if:
+            - in:
+                - var: role  
+                - ["user"]
+            - simple

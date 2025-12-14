@@ -1,0 +1,50 @@
+flags:
+  calorie-calculation-algorithm:
+    state: ENABLED
+    variants:
+      simple: "simple"
+      enhanced: "enhanced"
+      ml-powered: "ml-powered"
+    defaultVariant: simple
+    targeting:
+      if:
+        # Premium users (admin/beta-tester) get ML-powered algorithm
+        - in:
+            - var: role
+            - ["admin", "beta-tester"]
+        - ml-powered
+        # Regular users get enhanced algorithm
+        - if:
+            - in:
+                - var: role  
+                - ["user"]
+            - simple
+
+  beta-tester-access:
+    state: ENABLED
+    variants:
+      enabled: true
+      disabled: false
+    defaultVariant: disabled
+    targeting:
+      if:
+        # Only beta-testers and admins have access
+        - in:
+            - var: role
+            - ["admin", "beta-tester"]
+        - enabled
+
+  calories-tracking-enabled:
+    state: ENABLED
+    variants:
+      enabled: true
+      disabled: false
+    defaultVariant: enabled
+    targeting:
+      # Everyone has access to calories tracking by default
+      # Can be restricted by role if needed
+      if:
+        - in:
+            - var: role
+            - ["admin", "beta-tester", "user"]
+        - enabled
