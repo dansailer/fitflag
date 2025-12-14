@@ -6,20 +6,18 @@
 
 A demonstration application showcasing feature flag integration across multiple backend technologies using OpenFeature and flagd.
 
-## Architecture
-
-- **Frontend**: React + TypeScript + Vite + TanStack Query
-- **Backends**:
-  - **Quarkus** (Java): Daily steps tracking API
-  - **Node.js** (TypeScript + Express): Calories tracking API
-- **Feature Flags**: flagd with OpenFeature SDK integration
-- **Deployment**: Docker Compose with multi-container setup
+> **⚠️ Security Notice - Demo Only**  
+> This application passes user roles from the frontend to backend APIs via query parameters for **demonstration purposes only**. In production applications, user roles and permissions should **never** be client-controlled. Instead:
+> - User roles should be determined server-side from authenticated session tokens (JWT, OAuth, etc.)
+> - Feature flag evaluation contexts should use verified user attributes from trusted sources
+> - Client-provided data should always be validated and never trusted for authorization decisions
+> 
+> This demo intentionally simplifies authentication to focus on feature flag patterns and OpenFeature SDK integration.
 
 ## Features
 
 ### Frontend
-- **User role selector** (user, beta-tester, admin) - drives feature flag targeting
-- **Theme toggle** (light/dark mode)
+- **User role selector** (user, beta-tester) - drives feature flag targeting
 - **Gamification features** - badges, streaks (controlled by feature flags)
 - **Real-time fitness tracking**:
   - Daily steps from Quarkus backend
@@ -31,7 +29,6 @@ A demonstration application showcasing feature flag integration across multiple 
 - REST API endpoint: `GET /api/steps/daily`
 - Three calculation algorithms controlled by feature flags:
   - **simple**: Basic step counting (5,000-10,000 steps)
-  - **enhanced**: Factors in stride length, distance, and intensity
   - **ml-powered**: ML-based with pattern detection and adjustments
 - OpenFeature integration with flagd provider
 - Feature flag: `step-calculation-algorithm`
@@ -40,13 +37,10 @@ A demonstration application showcasing feature flag integration across multiple 
 - REST API endpoint: `GET /api/calories/daily`
 - Three calculation algorithms controlled by feature flags:
   - **simple**: Basic calorie calculation (5 cal/min)
-  - **enhanced**: Intensity and activity type based calculation
   - **ml-powered**: ML-enhanced personalized calculation with burn rate optimization
 - OpenFeature integration with flagd provider
 - Feature flags:
   - `calorie-calculation-algorithm`: Controls calculation method
-  - `beta-tester-access`: Gates access to beta features
-  - `calories-tracking-enabled`: Master switch for calories feature
 
 ## Quick Start
 
@@ -79,30 +73,18 @@ just compose-down
 
 ### Option 2: Local Development
 
-#### 1. Start flagd
 ```bash
 just flagd-start
-```
-
-#### 2. Start Quarkus Backend
-```bash
 just quarkus-dev
-```
-Available at http://localhost:8081
-
-#### 3. Start Node.js Backend
-```bash
 just nodejs-install  # First time only
 just nodejs-dev
-```
-Available at http://localhost:8082
-
-#### 4. Start Frontend
-```bash
 just frontend-install  # First time only
 just frontend-dev
 ```
-Available at http://localhost:5173
+
+Frontend available at http://localhost:5173
+Quarkus backend available at http://localhost:8081
+NodeJS backend available at http://localhost:8082
 
 ## Feature Flags Explained
 
@@ -154,18 +136,6 @@ FitFlag uses [flagd](https://flagd.dev/) as the feature flag evaluation engine w
 - **Used in**: `src/index.ts`, `CaloriesService.ts`
 - **Evaluation**: Server-side via OpenFeature Node.js SDK with flagd Provider
 
-**`beta-tester-access`** (Boolean)
-- **Purpose**: Gates access to beta features
-- **Variants**: `true`, `false`
-- **Targeting**: Only `admin` and `beta-tester` roles
-- **Default**: `false`
-
-**`calories-tracking-enabled`** (Boolean)
-- **Purpose**: Master switch for entire calories tracking feature
-- **Variants**: `true`, `false`
-- **Targeting**: Enabled for all roles by default
-- **Default**: `true`
-
 ## Testing Feature Flags
 
 ### 1. Using the UI
@@ -176,7 +146,6 @@ FitFlag uses [flagd](https://flagd.dev/) as the feature flag evaluation engine w
 2. Use the **user role selector** in the top-right to switch roles:
    - **user**: Simple algorithms, no gamification
    - **beta-tester**: ML-powered algorithms, gamification enabled
-   - **admin**: ML-powered algorithms, gamification enabled
 
 ### 2. Observing Flag Evaluation
 
@@ -190,24 +159,6 @@ Open browser DevTools console to see real-time flag evaluation:
 [Node.js Backend] Calorie algorithm: ml-powered
 [Node.js Backend] Calorie details: {intensityLevel: "high", burnRate: 8.3, activityType: "running"}
 ```
-
-### 3. Testing Different Scenarios
-
-**Scenario 1: Regular User**
-- Role: `user`
-- Steps: Simple algorithm badge
-- Calories: Simple algorithm badge
-- Gamification: Hidden
-
-**Scenario 2: Beta Tester**
-- Role: `beta-tester`
-- Steps: ML-powered algorithm with detailed metrics
-- Calories: ML-powered algorithm with burn rate and activity type
-- Gamification: Visible (streaks, badges)
-
-**Scenario 3: Admin**
-- Role: `admin`
-- Same as beta-tester plus full access to all features
 
 ### 4. Modifying Flags
 
